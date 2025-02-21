@@ -1,22 +1,15 @@
-import { Form } from "./components/Form.js";
-import { CompanyList } from "./components/CompanyList.js";
+// main.js
+import { Form } from './components/Form.js';
+import { CompanyList } from './components/CompanyList.js';
 
-const formContainer = document.getElementById("form-container");
-const companyContainer = document.getElementById("company-container");
+const app = document.getElementById("registration-form");
 
-if (formContainer) {
-    const formComponent = new Form();
-    formComponent.render(formContainer);
-} else {
-    console.error("⚠️ عنصر #form-container غير موجود في index.html");
-}
 
-if (companyContainer) {
-    const companyList = new CompanyList();
-    companyList.render(companyContainer);
-} else {
-    console.error("⚠️ عنصر #company-container غير موجود في index.html");
-}
+const formComponent = new Form();
+formComponent.render(app);
+
+const companyListComponent = new CompanyList();
+companyListComponent.render(app);
 
 
 
