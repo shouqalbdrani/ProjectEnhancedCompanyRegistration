@@ -1,42 +1,35 @@
-import { fetchCompanyData } from "../services/api.js";
+import { fetchCompanies } from '../services/api.js';
 
 export class CompanyList {
     constructor() {
-        this.container = document.createElement("div");
-
         this.button = document.createElement("button");
         this.button.textContent = "Fetch Companies";
-        this.button.className = "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600";
         this.button.addEventListener("click", () => this.loadCompanies());
 
         this.loading = document.createElement("span");
         this.loading.textContent = "Loading...";
-        this.loading.className = "text-gray-500 ml-2 hidden"; // مخفي في البداية
+        this.loading.style.display = "none";
 
         this.list = document.createElement("ul");
-        this.list.className = "mt-4 space-y-2 text-gray-700";
-
-        this.container.append(this.button, this.loading, this.list);
     }
 
-    loadCompanies = async () => {
-        this.loading.classList.remove("hidden"); // إظهار رسالة التحميل
+    async loadCompanies() {
+        this.loading.style.display = "inline";
         try {
-            const companies = await fetchCompanyData();
-            if (!Array.isArray(companies)) throw new Error("Invalid data format");
-
-            this.list.innerHTML = companies.length > 0
-                ? companies.map(company => `<li class="p-2 border rounded-md">${company.name} - ${company.email}</li>`).join("")
-                : "<li class='text-red-500'>No data found</li>";
+            const companies = await fetchCompanies();
+            this.list.innerHTML = companies.map(company => 
+                `<li class="bg-gray-100 p-4 rounded-lg shadow-md">${company.name} - ${company.registrationNumber}</li>`
+            ).join("");
         } catch (error) {
-            this.list.innerHTML = "<li class='text-red-500'>Error fetching companies</li>";
-            console.error("Error loading companies:", error);
+            this.list.innerHTML = "<li>Error fetching</li>"
         } finally {
-            this.loading.classList.add("hidden"); // إخفاء رسالة التحميل
+            this.loading.style.display = "none";
         }
-    };
+    }
 
     render(parent) {
-        parent.appendChild(this.container);
+        parent.appendChild(this.button);
+        parent.appendChild(this.loading);
+        parent.appendChild(this.list);
     }
 }
