@@ -1,24 +1,11 @@
-export const fetchCompanyData = async () => {
+export async function fetchCompanies() {
     try {
-        const response = await fetch("https://jsonplaceholder.typicode.com/users");
-        if (!response.ok) throw new Error(`خطأ: ${response.status} - ${response.statusText}`);
+        const response = await fetch("https://jsonplaceholder.typicode.com/users"); // Use an actual companies API endpoint here
         return await response.json();
     } catch (error) {
-        console.error("حدث خطأ أثناء جلب بيانات الشركة:", error);
-        return null;
+        throw new Error("Failed to fetch");
     }
-};
+}
 
-export const submitCompanyData = async (formData) => {
-    try {
-        const response = await fetch("https://your-api-endpoint.com/submit", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData),
-        });
-        return response;
-    } catch (error) {
-        console.error("خطأ أثناء إرسال البيانات:", error);
-        throw error;
-    }
-};
+
+
